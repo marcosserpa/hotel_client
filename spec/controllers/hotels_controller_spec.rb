@@ -18,6 +18,11 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
+VCR.configure do |config|
+  config.cassette_library_dir = 'spec/vcr'
+  config.hook_into :webmock
+end
+
 RSpec.describe HotelsController, type: :controller do
   include HTTParty
   include WebMock::API
@@ -28,7 +33,101 @@ RSpec.describe HotelsController, type: :controller do
 
   describe "GET #index" do
     it "assigns all hotels as @hotels" do
-      
+      VCR.use_cassette('hotels', record: :once) do
+        response = self.class.get('/')
+
+        expect(response.code).to eql(200)
+        expect(response.body).to eql("[{\"id\":1,\"name\":\"Amsterdam Premium Hotel\",\"address\":\"Marcantilaan St. 134\",\"star_rating\":4,\"accomodation_type\":\"single\"},{\"id\":2,\"name\":\"Rotterdam Hotel\",\"address\":\"Bergweg St. 302\",\"star_rating\":5,\"accomodation_type\":\"single\"}]")
+      end
     end
   end
+
+  describe "GET #search" do
+    it "assigns the requested hotel as @hotel" do
+      VCR.use_cassette('search', record: :once) do
+        response = self.class.get('/search', body: { words: 'Amsterdam' })
+
+        expect(response.code).to eql(200)
+        expect(response.body).to eql("[{\"id\":1,\"name\":\"Amsterdam Premium Hotel\",\"address\":\"Marcantilaan St. 134\",\"star_rating\":4,\"accomodation_type\":\"single\"}]")
+      end
+    end
+  end
+
+  describe "POST #create" do
+    it "assigns a new hotel" do
+      params = {
+        body: {
+          name: "Name",
+          address: "Address",
+          star_rating: 1,
+          accomodation_type: 'couple'
+        }
+      }
+
+      VCR.use_cassette('create_hotel', record: :once) do
+        response = self.class.post('/hotels', params)
+
+        expect(response.code).to eql(201)
+      end
+
+      VCR.use_cassette('last', record: :new_episodes) do
+        response = self.class.get('/')
+
+        last_hotel = JSON.parse(response.body).last
+
+        expect(last_hotel['name']).to eql("Name")
+        expect(last_hotel['address']).to eql("Address")
+      end
+    end
+  end
+
+  describe "PUT #update" do
+    it "updates the hotel" do
+      params = {
+        body: {
+          name: 'New Name',
+          address: 'New Address',
+          star_rating: 1,
+          accomodation_type: 'couple'
+        }
+      }
+
+      VCR.use_cassette('update_hotel', record: :once) do
+        response = self.class.put('/hotels/3', params)
+
+        expect(response.code).to eql(200)
+        expect(response.body).to eql("{\"id\":3,\"name\":\"New Name\",\"address\":\"New Address\",\"star_rating\":1,\"accomodation_type\":\"couple\"}")
+      end
+    end
+  end
+
+  describe "DELETE #destroy" do
+    it "deletes the hotel" do
+      VCR.use_cassette('detete_hotel', record: :once) do
+        response = self.class.delete('/hotels/3')
+
+        expect(response.code).to eql(200)
+      end
+
+      VCR.use_cassette('deleted_hotel', record: :new_episodes) do
+        response = self.class.get('/hotels/3')
+
+        expect(response.code).to eql(404)
+        expect(response.body).to eql("<h1>Not Found</h1>")
+      end
+    end
+  end
+end
+
+def generate_random_string
+  Array.new(10) { (Array('A'..'Z') + Array('a'..'z')).sample }.join
+end
+
+def generate_hotel
+  {
+    name: generate_random_string,
+    address: generate_random_string,
+    star_rating: rand(6),
+    accomodation_type: ['single', 'couple'].sample
+  }
 end

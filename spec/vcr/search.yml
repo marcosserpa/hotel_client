@@ -1,0 +1,45 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://murmuring-citadel-60488.herokuapp.com/search
+    body:
+      encoding: UTF-8
+      string: words=Amsterdam
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - text/html;charset=utf-8
+      Content-Length:
+      - '121'
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
+      Date:
+      - Thu, 02 Jun 2016 18:09:22 GMT
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '[{"id":1,"name":"Amsterdam Premium Hotel","address":"Marcantilaan St.
+        134","star_rating":4,"accomodation_type":"single"}]'
+    http_version: 
+  recorded_at: Thu, 02 Jun 2016 18:09:21 GMT
+recorded_with: VCR 3.0.3
