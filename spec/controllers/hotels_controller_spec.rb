@@ -19,125 +19,16 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe HotelsController, type: :controller do
+  include HTTParty
+  include WebMock::API
+
+  WebMock.enable!
+
+  base_uri 'murmuring-citadel-60488.herokuapp.com'
 
   describe "GET #index" do
     it "assigns all hotels as @hotels" do
-      hotel = Hotel.create! valid_attributes
-      get :index, {}, valid_session
-      expect(assigns(:hotels)).to eq([hotel])
+      
     end
   end
-
-  describe "GET #show" do
-    it "assigns the requested hotel as @hotel" do
-      hotel = Hotel.create! valid_attributes
-      get :show, {:id => hotel.to_param}, valid_session
-      expect(assigns(:hotel)).to eq(hotel)
-    end
-  end
-
-  describe "GET #new" do
-    it "assigns a new hotel as @hotel" do
-      get :new, {}, valid_session
-      expect(assigns(:hotel)).to be_a_new(Hotel)
-    end
-  end
-
-  describe "GET #edit" do
-    it "assigns the requested hotel as @hotel" do
-      hotel = Hotel.create! valid_attributes
-      get :edit, {:id => hotel.to_param}, valid_session
-      expect(assigns(:hotel)).to eq(hotel)
-    end
-  end
-
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new Hotel" do
-        expect {
-          post :create, {:hotel => valid_attributes}, valid_session
-        }.to change(Hotel, :count).by(1)
-      end
-
-      it "assigns a newly created hotel as @hotel" do
-        post :create, {:hotel => valid_attributes}, valid_session
-        expect(assigns(:hotel)).to be_a(Hotel)
-        expect(assigns(:hotel)).to be_persisted
-      end
-
-      it "redirects to the created hotel" do
-        post :create, {:hotel => valid_attributes}, valid_session
-        expect(response).to redirect_to(Hotel.last)
-      end
-    end
-
-    context "with invalid params" do
-      it "assigns a newly created but unsaved hotel as @hotel" do
-        post :create, {:hotel => invalid_attributes}, valid_session
-        expect(assigns(:hotel)).to be_a_new(Hotel)
-      end
-
-      it "re-renders the 'new' template" do
-        post :create, {:hotel => invalid_attributes}, valid_session
-        expect(response).to render_template("new")
-      end
-    end
-  end
-
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested hotel" do
-        hotel = Hotel.create! valid_attributes
-        put :update, {:id => hotel.to_param, :hotel => new_attributes}, valid_session
-        hotel.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "assigns the requested hotel as @hotel" do
-        hotel = Hotel.create! valid_attributes
-        put :update, {:id => hotel.to_param, :hotel => valid_attributes}, valid_session
-        expect(assigns(:hotel)).to eq(hotel)
-      end
-
-      it "redirects to the hotel" do
-        hotel = Hotel.create! valid_attributes
-        put :update, {:id => hotel.to_param, :hotel => valid_attributes}, valid_session
-        expect(response).to redirect_to(hotel)
-      end
-    end
-
-    context "with invalid params" do
-      it "assigns the hotel as @hotel" do
-        hotel = Hotel.create! valid_attributes
-        put :update, {:id => hotel.to_param, :hotel => invalid_attributes}, valid_session
-        expect(assigns(:hotel)).to eq(hotel)
-      end
-
-      it "re-renders the 'edit' template" do
-        hotel = Hotel.create! valid_attributes
-        put :update, {:id => hotel.to_param, :hotel => invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
-      end
-    end
-  end
-
-  describe "DELETE #destroy" do
-    it "destroys the requested hotel" do
-      hotel = Hotel.create! valid_attributes
-      expect {
-        delete :destroy, {:id => hotel.to_param}, valid_session
-      }.to change(Hotel, :count).by(-1)
-    end
-
-    it "redirects to the hotels list" do
-      hotel = Hotel.create! valid_attributes
-      delete :destroy, {:id => hotel.to_param}, valid_session
-      expect(response).to redirect_to(hotels_url)
-    end
-  end
-
 end

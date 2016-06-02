@@ -38,6 +38,7 @@ group :development, :test do
   gem 'pry'
   gem 'rspec-rails'
   gem 'webmock'
+  gem 'vcr'
   gem 'awesome_print'
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
