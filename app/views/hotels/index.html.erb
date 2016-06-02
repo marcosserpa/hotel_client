@@ -1,6 +1,14 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Listing Hotels</h1>
+<br/>
+
+<%= form_tag(hotels_path, :method => "get", id: "search-form") do %>
+  <div class="form-group">
+    <%= text_field_tag :search, params[:search], placeholder: "Search Hotels" %>
+    <%= submit_tag "Search" %>
+  </div>
+<% end %>
 
 <table>
   <thead>
@@ -20,9 +28,9 @@
         <td><%= hotel.address %></td>
         <td><%= hotel.star_rating %></td>
         <td><%= hotel.accomodation_type %></td>
-        <td><%= link_to 'Show', hotel %></td>
+        <td><%= link_to 'Show', hotel_path(hotel) %></td>
         <td><%= link_to 'Edit', edit_hotel_path(hotel) %></td>
-        <td><%= link_to 'Destroy', hotel, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', hotel_path(hotel), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
