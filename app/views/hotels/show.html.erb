@@ -1,24 +1,32 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <aside class="span4">
+    <section>
+      <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @hotel.name %>
-</p>
+      <p>
+        <strong>Name:</strong>
+        <%= @hotel.name %>
+      </p>
+    </section>
+  </aside>
 
-<p>
-  <strong>Address:</strong>
-  <%= @hotel.address %>
-</p>
+  <div class='span8'>
+    <p>
+      <strong>Address:</strong>
+      <%= @hotel.address %>
+    </p>
 
-<p>
-  <strong>Star rating:</strong>
-  <%= @hotel.star_rating %>
-</p>
+    <p>
+      <strong>Star rating:</strong>
+      <%= @hotel.star_rating %>
+    </p>
 
-<p>
-  <strong>Accomodation type:</strong>
-  <%= @hotel.accomodation_type %>
-</p>
+    <p>
+      <strong>Accomodation type:</strong>
+      <%= @hotel.accomodation_type %>
+    </p>
+  </div>
+</div>
 
-<%= link_to 'Edit', edit_hotel_path(@hotel.id) %> |
-<%= link_to 'Back', hotels_path %>
+<%= link_to 'Edit', edit_hotel_path(@hotel.id), class: "btn btn-large btn-secondary" %>
+<%= link_to 'Back', hotels_path, class: "btn btn-large btn-secondary" %>

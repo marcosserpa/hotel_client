@@ -1,4 +1,6 @@
-<%= form_for(@hotel, url: { action: (params[:action] == 'edit') ? 'update' : 'create' }, method: (params[:action] == 'edit') ? 'put' : 'post') do |f| %>
+<div class='row'>
+  <div class='span6 offset3'>
+    <%= form_for(@hotel, url: { action: (params[:action] == 'edit') ? 'update' : 'create' }, method: (params[:action] == 'edit') ? 'put' : 'post') do |f| %>
       <% if @hotel.errors.any? %>
         <div id="error_explanation">
           <h2><%= pluralize(@hotel.errors.count, "error") %> prohibited this hotel from being saved:</h2>
@@ -31,3 +33,5 @@
         <%= f.submit 'Send' %>
       </div>
     <% end %>
+  </div>
+</div>

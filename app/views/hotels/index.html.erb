@@ -3,39 +3,43 @@
 <h1>Listing Hotels</h1>
 <br/>
 
-<%= form_tag(hotels_path, :method => "get", id: "search-form") do %>
+<%= form_tag(hotels_path, :method => "get", id: "search-form", class: 'form-inline') do %>
   <div class="form-group">
-    <%= text_field_tag :search, params[:search], placeholder: "Search Hotels" %>
-    <%= submit_tag "Search" %>
+    <%= text_field_tag :search, params[:search], placeholder: "Search Hotels", class: 'form-control' %>
+    <%= submit_tag "Search", class: "btn btn-primary" %>
   </div>
+  <br/>
+  <small class='text-muted'>Leave blank if you want to list all available hotels.</small>
 <% end %>
+<br/>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Address</th>
-      <th>Star rating</th>
-      <th>Accomodation type</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @hotels.each do |hotel| %>
+<div class="form-group row">
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <td><%= hotel.name %></td>
-        <td><%= hotel.address %></td>
-        <td><%= hotel.star_rating %></td>
-        <td><%= hotel.accomodation_type %></td>
-        <td><%= link_to 'Show', hotel_path(hotel) %></td>
-        <td><%= link_to 'Edit', edit_hotel_path(hotel) %></td>
-        <td><%= link_to 'Destroy', hotel_path(hotel), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Star rating</th>
+        <th>Accomodation type</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
+    <tbody>
+      <% @hotels.each do |hotel| %>
+        <tr>
+          <td><%= hotel.name %></td>
+          <td><%= hotel.address %></td>
+          <td><%= hotel.star_rating %></td>
+          <td><%= hotel.accomodation_type %></td>
+          <td><%= link_to 'Show', hotel_path(hotel) %></td>
+          <td><%= link_to 'Edit', edit_hotel_path(hotel) %></td>
+          <td><%= link_to 'Destroy', hotel_path(hotel), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 <br>
 
-<%= link_to 'New Hotel', new_hotel_path %>
+<%= link_to 'New Hotel', new_hotel_path, class: "btn btn-secondary" %>

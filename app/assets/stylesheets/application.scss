@@ -13,3 +13,10 @@
  *= require_tree .
  *= require_self
  */
+
+@import "bootstrap";
+
+input[name="commit"] {
+  color: #373a3c;
+  background-color: #fff;
+}
